@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect } from "react";
+import { ChangeEvent, FormEvent, useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
@@ -30,7 +30,7 @@ export default function Home() {
     }
   };
 
-  const onFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const onFormSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const data = {
@@ -57,9 +57,9 @@ export default function Home() {
     const responseCode = response.status;
 
     if (responseCode !== 200 && responseCode !== 201) {
-      document.getElementById('error-message').innerText = result.message[0];
+      document.getElementById('error-message')!.innerText = Array.isArray(result.message) ? result.message[0] : result.message;
     } else {
-      document.getElementById('error-message').innerText = "";
+      document.getElementById('error-message')!.innerText = "";
 
       localStorage.setItem('access-token', result.access_token);
       router.push('/');
